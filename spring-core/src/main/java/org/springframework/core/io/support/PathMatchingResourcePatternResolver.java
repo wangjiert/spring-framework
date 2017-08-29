@@ -505,7 +505,10 @@ public class PathMatchingResourcePatternResolver implements ResourcePatternResol
 	protected String determineRootDir(String location) {
 		int prefixEnd = location.indexOf(":") + 1;
 		int rootDirEnd = location.length();
+		//循环是为了找到不含通配符的路径
 		while (rootDirEnd > prefixEnd && getPathMatcher().isPattern(location.substring(prefixEnd, rootDirEnd))) {
+			//index加一是因为subString是不包括end处的字符
+			//减二是因为了不包括之前找到的'/'
 			rootDirEnd = location.lastIndexOf('/', rootDirEnd - 2) + 1;
 		}
 		if (rootDirEnd == 0) {
